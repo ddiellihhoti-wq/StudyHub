@@ -1,0 +1,14 @@
+{
+  "name": "studyhub",
+  "version": "1.0.0",
+  "description": "StudyHub - study app for students and teachers",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-packager . StudyHub --platform=win32 --arch=x64 --out=dist --overwrite --ignore=\"^/dist\""
+  },
+  "devDependencies": {
+    "@electron/packager": "^18.3.0",
+    "electron": "^33.0.0"
+  }
+}

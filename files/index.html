@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>StudyHub</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="StudyHub">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="bar"></div>
+<div id="app"></div>
+<div id="modal" class="modal" hidden></div>
+<div id="toasts"></div>
+<canvas id="confetti"></canvas>
+<script>
+if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+</script>
+<script>
+  // npm start -- start app version
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyAEJbLaI1UoX6m1SD-DYtnOE1j-IYagxYw",
+    authDomain: "studyhub-fc090.firebaseapp.com",
+    projectId: "studyhub-fc090",
+    storageBucket: "studyhub-fc090.firebasestorage.app",
+    messagingSenderId: "33126022530",
+    appId: "1:33126022530:web:b7ded734e867003d47e39b",
+    measurementId: "G-JFWY3VNJK8"
+  };
+
+  window.studyHubAuth = Promise.all([
+    import("https://www.gstatic.com/firebasejs/13.4.0/firebase-app.js"),
+    import("https://www.gstatic.com/firebasejs/13.4.0/firebase-auth.js")
+  ]).then(([sdk, api]) => {
+    const app = sdk.initializeApp(firebaseConfig);
+    const auth = api.initializeAuth(app, {
+      persistence: [api.indexedDBLocalPersistence, api.browserLocalPersistence]
+    });
+    if (location.protocol === 'http:' || location.protocol === 'https:') {
+      import("https://www.gstatic.com/firebasejs/13.4.0/firebase-analytics.js")
+        .then(async analytics => { if (await analytics.isSupported()) analytics.getAnalytics(app); })
+        .catch(console.warn);
+    }
+    return { auth, api };
+  }).catch(error => { console.warn('Firebase initialization failed', error); return null; });
+</script>
+<script src="app.js"></script>
+</body>
+</html>
